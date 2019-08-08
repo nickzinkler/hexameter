@@ -294,59 +294,80 @@ class Verb(Word):
             if gender_or_plural != "plural":
                 if person == 1:
                     if self.conjugation == 1:
-                        if re.search(".*деть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "жу", "^--")
-                        elif re.search(".*теть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "чу", "^--")
-                        elif re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                            return WordStructure(self.text[:-4] + "шу", "^--")
-                        elif re.search(".*(пе|ы)ть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ою", "^--")
-                        elif re.search(".*ти$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "у", "^--")
-                        elif re.search(".*рить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ею", "^--")
+                        if re.search(".*еть$", self.text, re.I):
+                            if re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "жу", "^--")
+                            elif re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "чу", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ою", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ю", "^--")
+                        elif re.search(".*ать$", self.text, re.I):
+                            if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
+                                return WordStructure(self.text[:-4] + "шу", "^--")
+                            elif re.search(".*певать$", self.text, re.I):
+                                return WordStructure(self.text[:-2] + "ю", "^--")
+                            elif re.search(".*[ое]вать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "ую", "^--")
+                            elif re.search(".*авать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "ю", "^--")
+                            elif re.search(".*скать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "щу", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ю", "^--")
+                        elif re.search(".*ить", self.text, re.I):
+                            if re.search(".*рить$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ею", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ю", "^--")
                         elif re.search(".*ять$", self.text, re.I):
-                            if re.search(".*аять", self.text, re.I) and self.stress_position == self.syllables_count:
+                            if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
                                 return WordStructure(self.text[:-2] + "ю", "^--")
                             else:
                                 return WordStructure(self.text[:-3] + "ю", "^--")
-                        elif re.search(".*оться$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "юсь", "^--")
-                        elif re.search(".*[ое]вать$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "ую", "^--")
-                        elif re.search(".*авать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "ю", "^--")
-                        elif re.search(".*[ае]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ю", "^--")
-                        elif re.search(".*[ои]ть$", self.text, re.I):
+                        elif re.search(".*оть$", self.text, re.I):
                             return WordStructure(self.text[:-3] + "ю", "^--")
+                        elif re.search(".*ыть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "ою", "^--")
                     elif self.conjugation == 2:
-                        if re.search(".*зить$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "жу", "^--")
-                        elif re.search(".*т[еи]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "чу", "^--")
-                        elif re.search(".*ить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ю", "^--")
-                        elif re.search(".*[жш]ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "у", "^--")
-                        elif re.search(".*деть$", self.text, re.I):
-                            if self.perfective:
-                                return WordStructure(self.text[:-4] + "жаю", "^--")
-                            else:
+                        if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*зить$", self.text, re.I):
                                 return WordStructure(self.text[:-4] + "жу", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "лю", "^--")
-                        elif re.search(".*сеть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "шу", "^--")
+                            elif re.search(".*дить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "жу", "^--")
+                            elif re.search(".*тить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "чу", "^--")
+                            elif re.search(".*сить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "шу", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ю", "^--")
                         elif re.search(".*еть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ю", "^--")
-                        elif re.search(".*гнать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "оню", "^--")
+                            if re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "чу", "^--")
+                            elif re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "жу", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "лю", "^--")
+                            elif re.search(".*сеть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "шу", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ю", "^--")
                         elif re.search(".*ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ю", "^--")
+                            if re.search(".*[жш]ать$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "у", "^--")
+                            elif re.search(".*гнать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "оню", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ю", "^--")
                     else:
-                        if self.text == "хотеть":
+                        if re.search(".*есть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "даю", "^--")
+                        elif re.search(".*дать$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ю", "^--")
+                        elif re.search(".+быть$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ваю", "^--")
+                        elif self.text == "хотеть":
                             return WordStructure("хочу", "-^")
                         elif self.text == "бежать":
                             return WordStructure("бегу", "-^")
@@ -360,69 +381,83 @@ class Verb(Word):
                             return WordStructure("иду", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        elif re.search(".*есть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "даю", "^--")
-                        elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ю", "^--")
-                        elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ваю", "^--")
+
                 elif person == 2:
                     if self.conjugation == 1:
-                        if re.search(".*деть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "дишь", "^--")
-                        elif re.search(".*теть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тишь", "^--")
-                        elif re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                            return WordStructure(self.text[:-4] + "шешь", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оёшь", "^--")
-                        elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оешь", "^--")
-                        elif re.search(".*ти$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ёшь", "^--")
-                        elif re.search(".*рить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "еешь", "^--")
+                        if re.search(".*еть$", self.text, re.I):
+                            if re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дишь", "^--")
+                            elif re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тишь", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "оёшь", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ешь", "^--")
+                        elif re.search(".*ать$", self.text, re.I):
+                            if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
+                                return WordStructure(self.text[:-4] + "шешь", "^--")
+                            elif re.search(".*певать$", self.text, re.I):
+                                return WordStructure(self.text[:-2] + "ешь", "^--")
+                            elif re.search(".*[ое]вать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "уешь", "^--")
+                            elif re.search(".*авать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "ёшь", "^--")
+                            elif re.search(".*скать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "щешь", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ешь", "^--")
+                        elif re.search(".*ить", self.text, re.I):
+                            if re.search(".*рить$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "еешь", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ешь", "^--")
                         elif re.search(".*ять$", self.text, re.I):
-                            if re.search(".*аять", self.text, re.I) and self.stress_position == self.syllables_count:
+                            if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
                                 return WordStructure(self.text[:-2] + "ешь", "^--")
                             else:
                                 return WordStructure(self.text[:-3] + "ешь", "^--")
-                        elif re.search(".*оться$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "ешься", "^--")
-                        elif re.search(".*[ое]вать$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "уешь", "^--")
-                        elif re.search(".*авать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "ёшь", "^--")
-                        elif re.search(".*[ае]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ешь", "^--")
-                        elif re.search(".*[ои]ть$", self.text, re.I):
+                        elif re.search(".*оть$", self.text, re.I):
                             return WordStructure(self.text[:-3] + "ешь", "^--")
+                        elif re.search(".*ыть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "оешь", "^--")
                     elif self.conjugation == 2:
-                        if re.search(".*зить$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "зишь", "^--")
-                        elif re.search(".*т[еи]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тишь", "^--")
-                        elif re.search(".*ить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ишь", "^--")
-                        elif re.search(".*[жш]ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ишь", "^--")
-                        elif re.search(".*деть$", self.text, re.I):
-                            if self.perfective:
-                                return WordStructure(self.text[:-4] + "жаешь", "^--")
-                            else:
+                        if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*зить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зишь", "^--")
+                            if re.search(".*дить$", self.text, re.I):
                                 return WordStructure(self.text[:-4] + "дишь", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ишь", "^--")
-                        elif re.search(".*сеть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "сишь", "^--")
+                            elif re.search(".*тить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тишь", "^--")
+                            elif re.search(".*сить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сишь", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ишь", "^--")
                         elif re.search(".*еть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ишь", "^--")
-                        elif re.search(".*гнать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "онишь", "^--")
+                            if re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тишь", "^--")
+                            elif re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дишь", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ишь", "^--")
+                            elif re.search(".*сеть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сишь", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ишь", "^--")
                         elif re.search(".*ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ишь", "^--")
+                            if re.search(".*[жш]ать$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ишь", "^--")
+                            elif re.search(".*гнать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "онишь", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ишь", "^--")
                     else:
-                        if self.text == "хотеть":
+                        if re.search(".*есть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "даешь", "^--")
+                        elif re.search(".*дать$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ёшь", "^--")
+                        elif re.search(".+быть$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ваешь", "^--")
+                        elif self.text == "хотеть":
                             return WordStructure("хочешь", "-^")
                         elif self.text == "бежать":
                             return WordStructure("бежишь", "-^")
@@ -436,69 +471,83 @@ class Verb(Word):
                             return WordStructure("идёшь", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        elif re.search(".*есть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "даешь", "^--")
-                        elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ёшь", "^--")
-                        elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ваешь", "^--")
+
                 elif person == 3:
                     if self.conjugation == 1:
-                        if re.search(".*деть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "дит", "^--")
-                        elif re.search(".*теть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тит", "^--")
-                        elif re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                            return WordStructure(self.text[:-4] + "шет", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оёт", "^--")
-                        elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оет", "^--")
-                        elif re.search(".*ти$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ёт", "^--")
-                        elif re.search(".*рить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "еет", "^--")
+                        if re.search(".*еть$", self.text, re.I):
+                            if re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дит", "^--")
+                            elif re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тит", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "оёт", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ет", "^--")
+                        elif re.search(".*ать$", self.text, re.I):
+                            if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
+                                return WordStructure(self.text[:-4] + "шет", "^--")
+                            elif re.search(".*певать$", self.text, re.I):
+                                return WordStructure(self.text[:-2] + "ет", "^--")
+                            elif re.search(".*[ое]вать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "ует", "^--")
+                            elif re.search(".*авать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "ёт", "^--")
+                            elif re.search(".*скать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "щет", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ет", "^--")
+                        elif re.search(".*ить", self.text, re.I):
+                            if re.search(".*рить$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "еет", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ет", "^--")
                         elif re.search(".*ять$", self.text, re.I):
-                            if re.search(".*аять", self.text, re.I) and self.stress_position == self.syllables_count:
+                            if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
                                 return WordStructure(self.text[:-2] + "ет", "^--")
                             else:
                                 return WordStructure(self.text[:-3] + "ет", "^--")
-                        elif re.search(".*оться$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "ется", "^--")
-                        elif re.search(".*[ое]вать$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "ует", "^--")
-                        elif re.search(".*авать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "ёт", "^--")
-                        elif re.search(".*[ае]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ет", "^--")
-                        elif re.search(".*[ои]ть$", self.text, re.I):
+                        elif re.search(".*оть$", self.text, re.I):
                             return WordStructure(self.text[:-3] + "ет", "^--")
+                        elif re.search(".*ыть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "оет", "^--")
                     elif self.conjugation == 2:
-                        if re.search(".*зить$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "зит", "^--")
-                        elif re.search(".*т[еи]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тит", "^--")
-                        elif re.search(".*ить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ит", "^--")
-                        elif re.search(".*[жш]ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ит", "^--")
-                        elif re.search(".*деть$", self.text, re.I):
-                            if self.perfective:
-                                return WordStructure(self.text[:-4] + "жает", "^--")
-                            else:
+                        if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*зить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зит", "^--")
+                            if re.search(".*дить$", self.text, re.I):
                                 return WordStructure(self.text[:-4] + "дит", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ит", "^--")
-                        elif re.search(".*сеть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "сит", "^--")
+                            elif re.search(".*тить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тит", "^--")
+                            elif re.search(".*сить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сит", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ит", "^--")
                         elif re.search(".*еть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ит", "^--")
-                        elif re.search(".*гнать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "онит", "^--")
+                            if re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тит", "^--")
+                            elif re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дит", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ит", "^--")
+                            elif re.search(".*сеть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сит", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ит", "^--")
                         elif re.search(".*ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ит", "^--")
+                            if re.search(".*[жш]ать$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ит", "^--")
+                            elif re.search(".*гнать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "онит", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ит", "^--")
                     else:
-                        if self.text == "хотеть":
+                        if re.search(".*есть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "дает", "^--")
+                        elif re.search(".*дать$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ёт", "^--")
+                        elif re.search(".+быть$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "вает", "^--")
+                        elif self.text == "хотеть":
                             return WordStructure("хочет", "-^")
                         elif self.text == "бежать":
                             return WordStructure("бежит", "-^")
@@ -512,70 +561,83 @@ class Verb(Word):
                             return WordStructure("идёт", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        elif re.search(".*есть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "дает", "^--")
-                        elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ёт", "^--")
-                        elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "вает", "^--")
             else:
                 if person == 1:
                     if self.conjugation == 1:
-                        if re.search(".*деть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "дим", "^--")
-                        elif re.search(".*теть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тим", "^--")
-                        elif re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                            return WordStructure(self.text[:-4] + "шем", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оём", "^--")
-                        elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оем", "^--")
-                        elif re.search(".*ти$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "дём", "^--")
-                        elif re.search(".*рить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "еем", "^--")
+                        if re.search(".*еть$", self.text, re.I):
+                            if re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дим", "^--")
+                            elif re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тим", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "оём", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ем", "^--")
+                        elif re.search(".*ать$", self.text, re.I):
+                            if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
+                                return WordStructure(self.text[:-4] + "шем", "^--")
+                            elif re.search(".*певать$", self.text, re.I):
+                                return WordStructure(self.text[:-2] + "ем", "^--")
+                            elif re.search(".*[ое]вать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "уем", "^--")
+                            elif re.search(".*авать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "ём", "^--")
+                            elif re.search(".*скать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "щем", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ем", "^--")
+                        elif re.search(".*ить", self.text, re.I):
+                            if re.search(".*рить$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "еем", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ем", "^--")
                         elif re.search(".*ять$", self.text, re.I):
-                            if re.search(".*аять", self.text, re.I) and self.stress_position == self.syllables_count:
+                            if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
                                 return WordStructure(self.text[:-2] + "ем", "^--")
                             else:
                                 return WordStructure(self.text[:-3] + "ем", "^--")
-                        elif re.search(".*оться$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "емся", "^--")
-                        elif re.search(".*[ое]вать$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "уем", "^--")
-                        elif re.search(".*авать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "ём", "^--")
-                        elif re.search(".*[ае]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ем", "^--")
-                        elif re.search(".*[ои]ть$", self.text, re.I):
+                        elif re.search(".*оть$", self.text, re.I):
                             return WordStructure(self.text[:-3] + "ем", "^--")
+                        elif re.search(".*ыть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "оем", "^--")
                     elif self.conjugation == 2:
-                        if re.search(".*зить$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "зим", "^--")
-                        elif re.search(".*т[еи]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тим", "^--")
-                        elif re.search(".*ить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "им", "^--")
-                        elif re.search(".*[жш]ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "им", "^--")
-                        elif re.search(".*деть$", self.text, re.I):
-                            if self.perfective:
-                                return WordStructure(self.text[:-4] + "жаем", "^--")
-                            else:
+                        if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*зить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зим", "^--")
+                            if re.search(".*дить$", self.text, re.I):
                                 return WordStructure(self.text[:-4] + "дим", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "им", "^--")
-                        elif re.search(".*сеть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "сим", "^--")
+                            elif re.search(".*тить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тим", "^--")
+                            elif re.search(".*сить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сим", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "им", "^--")
                         elif re.search(".*еть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "им", "^--")
-                        elif re.search(".*гнать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "оним", "^--")
+                            if re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тим", "^--")
+                            elif re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дим", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "им", "^--")
+                            elif re.search(".*сеть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сим", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "им", "^--")
                         elif re.search(".*ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "им", "^--")
+                            if re.search(".*[жш]ать$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "им", "^--")
+                            elif re.search(".*гнать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "оним", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "им", "^--")
                     else:
-                        if self.text == "хотеть":
+                        if re.search(".*есть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "даем", "^--")
+                        elif re.search(".*дать$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ём", "^--")
+                        elif re.search(".+быть$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ваем", "^--")
+                        elif self.text == "хотеть":
                             return WordStructure("хотим", "-^")
                         elif self.text == "бежать":
                             return WordStructure("бежим", "-^")
@@ -589,162 +651,186 @@ class Verb(Word):
                             return WordStructure("идём", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        elif re.search(".*есть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "даем", "^--")
-                        elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ём", "^--")
-                        elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ваем", "^--")
+
                 elif person == 2:
                     if self.conjugation == 1:
-                        if re.search(".*деть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "дите", "^--")
-                        elif re.search(".*теть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тите", "^--")
-                        elif re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                            return WordStructure(self.text[:-4] + "шете", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оёте", "^--")
-                        elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оете", "^--")
-                        elif re.search(".*ти$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ёте", "^--")
-                        elif re.search(".*рить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "еете", "^--")
+                        if re.search(".*еть$", self.text, re.I):
+                            if re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дите", "^--")
+                            elif re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тите", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "оёте", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ете", "^--")
+                        elif re.search(".*ать$", self.text, re.I):
+                            if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
+                                return WordStructure(self.text[:-4] + "шете", "^--")
+                            elif re.search(".*певать$", self.text, re.I):
+                                return WordStructure(self.text[:-2] + "ете", "^--")
+                            elif re.search(".*[ое]вать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "уете", "^--")
+                            elif re.search(".*авать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "ёт", "^--")
+                            elif re.search(".*скать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "щете", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ете", "^--")
+                        elif re.search(".*ить", self.text, re.I):
+                            if re.search(".*рить$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "еете", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ете", "^--")
                         elif re.search(".*ять$", self.text, re.I):
-                            if re.search(".*аять", self.text, re.I) and self.stress_position == self.syllables_count:
+                            if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
                                 return WordStructure(self.text[:-2] + "ете", "^--")
                             else:
                                 return WordStructure(self.text[:-3] + "ете", "^--")
-                        elif re.search(".*оться$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "етесь", "^--")
-                        elif re.search(".*[ое]вать$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "уете", "^--")
-                        elif re.search(".*авать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "ёте", "^--")
-                        elif re.search(".*[ае]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ете", "^--")
-                        elif re.search(".*[ои]ть$", self.text, re.I):
+                        elif re.search(".*оть$", self.text, re.I):
                             return WordStructure(self.text[:-3] + "ете", "^--")
+                        elif re.search(".*ыть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "оете", "^--")
                     elif self.conjugation == 2:
-                        if re.search(".*зить$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "зите", "^--")
-                        elif re.search(".*т[еи]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тите", "^--")
-                        elif re.search(".*ить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ите", "^--")
-                        elif re.search(".*[жш]ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ите", "^--")
-                        elif re.search(".*деть$", self.text, re.I):
-                            if self.perfective:
-                                return WordStructure(self.text[:-4] + "жаете", "^--")
-                            else:
+                        if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*зить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зите", "^--")
+                            if re.search(".*дить$", self.text, re.I):
                                 return WordStructure(self.text[:-4] + "дите", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ите", "^--")
-                        elif re.search(".*сеть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "сите", "^--")
+                            elif re.search(".*тить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тите", "^--")
+                            elif re.search(".*сить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сите", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ите", "^--")
                         elif re.search(".*еть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ите", "^--")
-                        elif re.search(".*гнать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "оните", "^--")
+                            if re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тите", "^--")
+                            elif re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дите", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ите", "^--")
+                            elif re.search(".*сеть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сите", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ите", "^--")
                         elif re.search(".*ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ите", "^--")
+                            if re.search(".*[жш]ать$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ите", "^--")
+                            elif re.search(".*гнать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "оните", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ите", "^--")
                     else:
-                        if self.text == "хотеть":
+                        if re.search(".*есть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "даетн", "^--")
+                        elif re.search(".*дать$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ётн", "^--")
+                        elif re.search(".+быть$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ваетн", "^--")
+                        elif self.text == "хотеть":
                             return WordStructure("хотите", "-^")
                         elif self.text == "бежать":
                             return WordStructure("бежите", "-^")
                         elif self.text == "чтить":
                             return WordStructure("чтите", "^")
                         elif self.text == "есть":
-                            return WordStructure("ешьте", "^")
+                            return WordStructure("едите", "^")
                         elif self.text == "ехать":
                             return WordStructure("едете", "^-")
                         elif self.text == "идти":
                             return WordStructure("идёте", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        elif re.search(".*есть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "даете", "^--")
-                        elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ёте", "^--")
-                        elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ваете", "^--")
+                        
                 elif person == 3:
                     if self.conjugation == 1:
-                        if re.search(".*деть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "дят", "^--")
-                        elif re.search(".*теть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тят", "^--")
-                        elif re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                            return WordStructure(self.text[:-4] + "шут", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оют", "^--")
-                        elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оят", "^--")
-                        elif re.search(".*рить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "еют", "^--")
+                        if re.search(".*еть$", self.text, re.I):
+                            if re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дят", "^--")
+                            elif re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тят", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "оют", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ят", "^--")
+                        elif re.search(".*ать$", self.text, re.I):
+                            if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
+                                return WordStructure(self.text[:-4] + "шут", "^--")
+                            elif re.search(".*певать$", self.text, re.I):
+                                return WordStructure(self.text[:-2] + "ют", "^--")
+                            elif re.search(".*[ое]вать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "уют", "^--")
+                            elif re.search(".*авать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "ют", "^--")
+                            elif re.search(".*скать$", self.text, re.I):
+                                return WordStructure(self.text[:-5] + "щут", "^--")
+                            else:
+                                return WordStructure(self.text[:-2] + "ют", "^--")
+                        elif re.search(".*ить", self.text, re.I):
+                            if re.search(".*рить$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "еют", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ют", "^--")
                         elif re.search(".*ять$", self.text, re.I):
-                            if re.search(".*аять", self.text, re.I) and self.stress_position == self.syllables_count:
+                            if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
                                 return WordStructure(self.text[:-2] + "ют", "^--")
                             else:
-                                return WordStructure(self.text[:-3] + "ят", "^--")
-                        elif re.search(".*оться$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "ятся", "^--")
-                        elif re.search(".*[ое]вать$", self.text, re.I):
-                            return WordStructure(self.text[:-5] + "уют", "^--")
-                        elif re.search(".*авать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "ют", "^--")
-                        elif re.search(".*[ае]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ют", "^--")
-                        elif re.search(".*[ои]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ют", "^--")
+                                return WordStructure(self.text[:-3] + "ют", "^--")
+                        elif re.search(".*оть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "ят", "^--")
+                        elif re.search(".*ыть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "оют", "^--")
                     elif self.conjugation == 2:
-                        if re.search(".*зить$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "зят", "^--")
-                        elif re.search(".*т[еи]ть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "тят", "^--")
-                        elif re.search(".*ить$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ят", "^--")
-                        elif re.search(".*[жш]ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ат", "^--")
-                        elif re.search(".*деть$", self.text, re.I):
-                            if self.perfective:
-                                return WordStructure(self.text[:-4] + "жают", "^--")
-                            else:
+                        if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*зить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зят", "^--")
+                            if re.search(".*дить$", self.text, re.I):
                                 return WordStructure(self.text[:-4] + "дят", "^--")
-                        elif re.search(".*петь$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ят", "^--")
-                        elif re.search(".*сеть$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "сят", "^--")
+                            elif re.search(".*тить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тят", "^--")
+                            elif re.search(".*сить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сят", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ят", "^--")
                         elif re.search(".*еть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ят", "^--")
-                        elif re.search(".*гнать$", self.text, re.I):
-                            return WordStructure(self.text[:-4] + "онят", "^--")
+                            if re.search(".*теть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "тят", "^--")
+                            elif re.search(".*деть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дят", "^--")
+                            elif re.search(".*петь$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ят", "^--")
+                            elif re.search(".*сеть$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "сят", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ят", "^--")
                         elif re.search(".*ать$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ят", "^--")
+                            if re.search(".*[жш]ать$", self.text, re.I):
+                                return WordStructure(self.text[:-3] + "ят", "^--")
+                            elif re.search(".*гнать$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "онят", "^--")
+                            else:
+                                return WordStructure(self.text[:-3] + "ят", "^--")
                     else:
-                        if self.text == "хотеть":
+                        if re.search(".*есть$", self.text, re.I):
+                            return WordStructure(self.text[:-3] + "дают", "^--")
+                        elif re.search(".*дать$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "ят", "^--")
+                        elif re.search(".+быть$", self.text, re.I):
+                            return WordStructure(self.text[:-2] + "вают", "^--")
+                        elif self.text == "хотеть":
                             return WordStructure("хотят", "-^")
                         elif self.text == "бежать":
                             return WordStructure("бегут", "-^")
                         elif self.text == "чтить":
                             return WordStructure("чтят", "^")
                         elif self.text == "есть":
-                            return WordStructure("едят", "^")
+                            return WordStructure("едяь", "^")
                         elif self.text == "ехать":
                             return WordStructure("едут", "^-")
                         elif self.text == "идти":
                             return WordStructure("идут", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        elif re.search(".*есть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "дают", "^--")
-                        elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ют", "^--")
-                        elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "вают", "^--")
 
 
 class Hero:
@@ -954,12 +1040,23 @@ def parse_text(text):
         print(text.replace("^", ""))
 
 
-verbs = [Verb("воспеть", 3, False),
-         Verb("соделать", 2, False),
-         Verb("низринуть", 2, True),
-         Verb("распростереть", 3, True),
+verbs = [Verb("воспевать", 3, False),
+         Verb("делать", 2, False),
+         Verb("низвергать", 2, False),
+         Verb("распростирать", 3, False),
          Verb("воздвигать", 3, False),
-         Verb("воспылать", 3, True)]
+         Verb("пылать", 3, False),
+         Verb("приходить", 3, False),
+         Verb("умолять", 3, False),
+         Verb("искупать", 3, False),
+         Verb("приносить", 3, False),
+         Verb("помогать", 3, False),
+         Verb("искать", 3, False),
+         Verb("разрушать", 3, False),
+         Verb("возвращать", 3, False),
+         Verb("принимать", 3, False),
+         Verb("разить", 3, False),
+         Verb("оказывать", 3, False)]
 
 for y in verbs:
      print(y.get_form("present", 1, "male").text
