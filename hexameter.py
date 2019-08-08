@@ -741,7 +741,7 @@ class Verb(Word):
                             return WordStructure("идёте", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
-                        
+
                 elif person == 3:
                     if self.conjugation == 1:
                         if re.search(".*еть$", self.text, re.I):
@@ -1059,12 +1059,12 @@ verbs = [Verb("воспевать", 3, False),
          Verb("оказывать", 3, False)]
 
 for y in verbs:
-     print(y.get_form("present", 1, "male").text
-           + " " + y.get_form("present", 2, "male").text
-           + " " + y.get_form("present", 3, "male").text
-           + " " + y.get_form("present", 1, "plural").text
-           + " " + y.get_form("present", 2, "plural").text
-           + " " + y.get_form("present", 3, "plural").text)
+    print(y.get_form("present", 1, "male").text
+          + " " + y.get_form("present", 2, "male").text
+          + " " + y.get_form("present", 3, "male").text
+          + " " + y.get_form("present", 1, "plural").text
+          + " " + y.get_form("present", 2, "plural").text
+          + " " + y.get_form("present", 3, "plural").text)
 
 # print("Первое спряжение:")
 # verbs = [Verb("желать", 2, True),
