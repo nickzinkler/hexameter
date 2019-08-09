@@ -289,6 +289,43 @@ class Verb(Word):
             return 2
         return 1
 
+    def get_type(self):
+        if re.search(".*[аяе]ть$", self.text, re.I):
+            if re.search(".*[ое]вать$", self.text, re.I):
+                return 2
+            elif re.search(".*авать$", self.text, re.I):
+                return 13
+            elif re.search(".*ереть$", self.text, re.I):
+                return 9
+            if re.search(".*[аяе]ть$", self.text, re.I):
+                return 1
+            elif re.search(".*[аяе]ть$", self.text, re.I):
+                return 5
+            elif re.search(".*[ая]ть$", self.text, re.I):
+                return 6
+            elif re.search(".*[ая]ть", self.text, re.I):
+                return 14
+        elif re.search(".*[ыуи]ть$", self.text, re.I):
+            if re.search(".*нуть$", self.text, re.I):
+                return 3
+            elif re.search(".*ить$", self.text, re.I):
+                return 4
+            elif re.search(".*ить$", self.text, re.I):
+                return 11
+            elif re.search(".*[ыуи]ть$", self.text, re.I):
+                return 12
+        elif re.search(".*[зс]т[ьи]$", self.text, re.I):
+            return 7
+        elif re.search(".*чь$", self.text, re.I):
+            return 8
+        elif re.search(".*о[лр]оть$", self.text, re.I):
+            return 10
+        elif re.search(".*ть", self.text, re.I):
+            if re.search(".*ть", self.text, re.I):
+                return 15
+            elif re.search(".*ть", self.text, re.I):
+                return 16
+
     def get_form(self, tense, person, gender_or_plural):
         if tense == "present":
             if gender_or_plural != "plural":
@@ -589,80 +626,89 @@ class Verb(Word):
                     if self.conjugation == 1:
                         if re.search(".*еть$", self.text, re.I):
                             if re.search(".*деть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дим", "^--")
+                                return WordStructure(self.text[:-4] + "дим", get_rhytmic_structure(self))
                             elif re.search(".*теть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тим", "^--")
+                                return WordStructure(self.text[:-4] + "тим", get_rhytmic_structure(self))
                             elif re.search(".*петь$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "оём", "^--")
+                                return WordStructure(self.text[:-3] + "оём", get_rhytmic_structure(self)[:-1] + "-^")
                             else:
-                                return WordStructure(self.text[:-2] + "ем", "^--")
+                                return WordStructure(self.text[:-2] + "ем", get_rhytmic_structure(self) + "-")
                         elif re.search(".*ать$", self.text, re.I):
                             if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                                return WordStructure(self.text[:-4] + "шем", "^--")
+                                return WordStructure(self.text[:-4] + "шем", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*певать$", self.text, re.I):
-                                return WordStructure(self.text[:-2] + "ем", "^--")
+                                return WordStructure(self.text[:-2] + "ем", get_rhytmic_structure(self) + "-")
                             elif re.search(".*[ое]вать$", self.text, re.I):
-                                return WordStructure(self.text[:-5] + "уем", "^--")
+                                if self.stress_position == self.syllables_count:
+                                    return WordStructure(self.text[:-5] + "уем",
+                                                         get_rhytmic_structure(self)[:-2] + "^-")
+                                else:
+                                    return WordStructure(self.text[:-5] + "уем", get_rhytmic_structure(self))
                             elif re.search(".*авать$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "ём", "^--")
+                                return WordStructure(self.text[:-4] + "ём", get_rhytmic_structure(self))
                             elif re.search(".*скать$", self.text, re.I):
-                                return WordStructure(self.text[:-5] + "щем", "^--")
+                                return WordStructure(self.text[:-5] + "щем", get_rhytmic_structure(self)[:-2] + "^-")
                             else:
-                                return WordStructure(self.text[:-2] + "ем", "^--")
+                                return WordStructure(self.text[:-2] + "ем", get_rhytmic_structure(self) + "-")
                         elif re.search(".*ить", self.text, re.I):
                             if re.search(".*рить$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "еем", "^--")
+                                return WordStructure(self.text[:-3] + "еем", get_rhytmic_structure(self) + "-")
                             else:
-                                return WordStructure(self.text[:-3] + "ем", "^--")
+                                return WordStructure(self.text[:-3] + "ем", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*ять$", self.text, re.I):
                             if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
-                                return WordStructure(self.text[:-2] + "ем", "^--")
+                                return WordStructure(self.text[:-2] + "ем", get_rhytmic_structure(self) + "-")
                             else:
-                                return WordStructure(self.text[:-3] + "ем", "^--")
+                                return WordStructure(self.text[:-3] + "ем", get_rhytmic_structure(self))
                         elif re.search(".*оть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ем", "^--")
+                            return WordStructure(self.text[:-3] + "ем", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оем", "^--")
+                            return WordStructure(self.text[:-3] + "оем", get_rhytmic_structure(self) + "-")
                     elif self.conjugation == 2:
                         if re.search(".*ить$", self.text, re.I):
-                            if re.search(".*зить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "зим", "^--")
-                            if re.search(".*дить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дим", "^--")
+                            if re.search(".*озить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зим", get_rhytmic_structure(self)[:-2] + "^-")
+                            elif re.search(".*зить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зим", get_rhytmic_structure(self))
+                            elif re.search(".*дить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дим", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*тить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тим", "^--")
+                                return WordStructure(self.text[:-4] + "тим", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*сить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "сим", "^--")
+                                return WordStructure(self.text[:-4] + "сим", get_rhytmic_structure(self)[:-2] + "^-")
                             else:
-                                return WordStructure(self.text[:-3] + "им", "^--")
+                                return WordStructure(self.text[:-3] + "им", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*еть$", self.text, re.I):
                             if re.search(".*теть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тим", "^--")
+                                return WordStructure(self.text[:-4] + "тим", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*деть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дим", "^--")
+                                return WordStructure(self.text[:-4] + "дим", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*петь$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "им", "^--")
+                                return WordStructure(self.text[:-3] + "им", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*сеть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "сим", "^--")
+                                return WordStructure(self.text[:-4] + "сим", get_rhytmic_structure(self)[:-2] + "^-")
                             else:
-                                return WordStructure(self.text[:-3] + "им", "^--")
+                                return WordStructure(self.text[:-3] + "им", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*ать$", self.text, re.I):
                             if re.search(".*[жш]ать$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "им", "^--")
+                                if re.search(".*ижать$", self.text, re.I):
+                                    return WordStructure(self.text[:-3] + "аем", get_rhytmic_structure(self) + "-")
+                                else:
+                                    return WordStructure(self.text[:-3] + "им", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*гнать$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "оним", "^--")
+                                return WordStructure(self.text[:-4] + "оним", get_rhytmic_structure(self) + "-")
                             else:
-                                return WordStructure(self.text[:-3] + "им", "^--")
+                                return WordStructure(self.text[:-3] + "им", get_rhytmic_structure(self) + "-")
                     else:
                         if re.search(".*есть$", self.text, re.I):
                             if self.text == "есть":
-                                return WordStructure("едим", "^")
+                                return WordStructure("едим", "-^")
                             else:
-                                return WordStructure(self.text[:-3] + "даем", "^--")
+                                return WordStructure(self.text[:-3] + "даем", get_rhytmic_structure(self))
                         elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ём", "^--")
+                            return WordStructure(self.text[:-2] + "ем", get_rhytmic_structure(self) + "-")
                         elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ваем", "^--")
+                            return WordStructure(self.text[:-2] + "ваем", get_rhytmic_structure(self))
                         elif self.text == "хотеть":
                             return WordStructure("хотим", "-^")
                         elif self.text == "бежать":
@@ -680,90 +726,97 @@ class Verb(Word):
                     if self.conjugation == 1:
                         if re.search(".*еть$", self.text, re.I):
                             if re.search(".*деть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дите", "^--")
+                                return WordStructure(self.text[:-4] + "дите", get_rhytmic_structure(self) + "-")
                             elif re.search(".*теть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тите", "^--")
+                                return WordStructure(self.text[:-4] + "тите", get_rhytmic_structure(self) + "-")
                             elif re.search(".*петь$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "оёте", "^--")
+                                return WordStructure(self.text[:-3] + "оёте", get_rhytmic_structure(self)[:-1] + "-^-")
                             else:
-                                return WordStructure(self.text[:-2] + "ете", "^--")
+                                return WordStructure(self.text[:-2] + "ете", get_rhytmic_structure(self) + "--")
                         elif re.search(".*ать$", self.text, re.I):
                             if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                                return WordStructure(self.text[:-4] + "шете", "^--")
+                                return WordStructure(self.text[:-4] + "шете", get_rhytmic_structure(self)[:-2]
+                                                     + "^--")
                             elif re.search(".*певать$", self.text, re.I):
-                                return WordStructure(self.text[:-2] + "ете", "^--")
+                                return WordStructure(self.text[:-2] + "ете", get_rhytmic_structure(self) + "--")
                             elif re.search(".*[ое]вать$", self.text, re.I):
-                                return WordStructure(self.text[:-5] + "уете", "^--")
+                                if self.stress_position == self.syllables_count:
+                                    return WordStructure(self.text[:-5] + "уете", get_rhytmic_structure(self)[:-2]
+                                                         + "^--")
+                                else:
+                                    return WordStructure(self.text[:-5] + "уете", get_rhytmic_structure(self) + "-")
                             elif re.search(".*авать$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "ёт", "^--")
+                                return WordStructure(self.text[:-4] + "ётe", get_rhytmic_structure(self) + "-")
                             elif re.search(".*скать$", self.text, re.I):
-                                return WordStructure(self.text[:-5] + "щете", "^--")
+                                return WordStructure(self.text[:-5] + "щете", get_rhytmic_structure(self)[:-2] + "^--")
                             else:
-                                return WordStructure(self.text[:-2] + "ете", "^--")
+                                return WordStructure(self.text[:-2] + "ете", get_rhytmic_structure(self) + "--")
                         elif re.search(".*ить", self.text, re.I):
                             if re.search(".*рить$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "еете", "^--")
+                                return WordStructure(self.text[:-3] + "еете", get_rhytmic_structure(self) + "--")
                             else:
-                                return WordStructure(self.text[:-3] + "ете", "^--")
+                                return WordStructure(self.text[:-3] + "ете", get_rhytmic_structure(self)[:-2] + "^--")
                         elif re.search(".*ять$", self.text, re.I):
                             if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
-                                return WordStructure(self.text[:-2] + "ете", "^--")
+                                return WordStructure(self.text[:-2] + "ете", get_rhytmic_structure(self) + "--")
                             else:
-                                return WordStructure(self.text[:-3] + "ете", "^--")
+                                return WordStructure(self.text[:-3] + "ете", get_rhytmic_structure(self) + "-")
                         elif re.search(".*оть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ете", "^--")
+                            return WordStructure(self.text[:-3] + "ете", get_rhytmic_structure(self)[:-2] + "^--")
                         elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оете", "^--")
+                            return WordStructure(self.text[:-3] + "оете", get_rhytmic_structure(self) + "--")
                     elif self.conjugation == 2:
                         if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*озить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зите", get_rhytmic_structure(self)[:-2] + "^--")
                             if re.search(".*зить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "зите", "^--")
-                            if re.search(".*дить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дите", "^--")
+                                return WordStructure(self.text[:-4] + "зите", get_rhytmic_structure(self)[:-2] + "-^-")
+                            elif re.search(".*дить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "дите", get_rhytmic_structure(self)[:-2] + "^--")
                             elif re.search(".*тить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тите", "^--")
+                                return WordStructure(self.text[:-4] + "тите", get_rhytmic_structure(self)[:-2] + "^--")
                             elif re.search(".*сить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "сите", "^--")
+                                return WordStructure(self.text[:-4] + "сите", get_rhytmic_structure(self)[:-2] + "^--")
                             else:
-                                return WordStructure(self.text[:-3] + "ите", "^--")
+                                return WordStructure(self.text[:-3] + "ите", get_rhytmic_structure(self)[:-2] + "^--")
                         elif re.search(".*еть$", self.text, re.I):
                             if re.search(".*теть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тите", "^--")
+                                return WordStructure(self.text[:-4] + "тите", get_rhytmic_structure(self)[:-2] + "^--")
                             elif re.search(".*деть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дите", "^--")
+                                return WordStructure(self.text[:-4] + "дите", get_rhytmic_structure(self)[:-2] + "^--")
                             elif re.search(".*петь$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "ите", "^--")
+                                return WordStructure(self.text[:-3] + "ите", get_rhytmic_structure(self)[:-2] + "^--")
                             elif re.search(".*сеть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "сите", "^--")
+                                return WordStructure(self.text[:-4] + "сите", get_rhytmic_structure(self)[:-2] + "^--")
                             else:
-                                return WordStructure(self.text[:-3] + "ите", "^--")
+                                return WordStructure(self.text[:-3] + "ите", get_rhytmic_structure(self)[:-2] + "^--")
                         elif re.search(".*ать$", self.text, re.I):
                             if re.search(".*[жш]ать$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "ите", "^--")
+                                return WordStructure(self.text[:-3] + "ите", get_rhytmic_structure(self)[:-2] + "^--")
                             elif re.search(".*гнать$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "оните", "^--")
+                                return WordStructure(self.text[:-4] + "оните", get_rhytmic_structure(self) + "--")
                             else:
-                                return WordStructure(self.text[:-3] + "ите", "^--")
+                                return WordStructure(self.text[:-3] + "ите", get_rhytmic_structure(self)[:-2] + "^--")
                     else:
                         if re.search(".*есть$", self.text, re.I):
                             if self.text == "есть":
-                                return WordStructure("едите", "^")
+                                return WordStructure("едите", "-^-")
                             else:
-                                return WordStructure(self.text[:-3] + "даетн", "^--")
+                                return WordStructure(self.text[:-3] + "даете", "^--")
                         elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ётн", "^--")
+                            return WordStructure(self.text[:-2] + "ете", get_rhytmic_structure(self)[:-2] + "^--")
                         elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ваетн", "^--")
+                            return WordStructure(self.text[:-2] + "ваете", get_rhytmic_structure(self)[:-2] + "^-")
                         elif self.text == "хотеть":
-                            return WordStructure("хотите", "-^")
+                            return WordStructure("хотите", "-^-")
                         elif self.text == "бежать":
-                            return WordStructure("бежите", "-^")
+                            return WordStructure("бежите", "-^-")
                         elif self.text == "чтить":
-                            return WordStructure("чтите", "^")
+                            return WordStructure("чтите", "^-")
                         elif self.text == "ехать":
-                            return WordStructure("едете", "^-")
+                            return WordStructure("едете", "^--")
                         elif self.text == "идти":
-                            return WordStructure("идёте", "-^")
+                            return WordStructure("идёте", "-^-")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
 
@@ -771,80 +824,86 @@ class Verb(Word):
                     if self.conjugation == 1:
                         if re.search(".*еть$", self.text, re.I):
                             if re.search(".*деть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дят", "^--")
+                                return WordStructure(self.text[:-4] + "дят", get_rhytmic_structure(self))
                             elif re.search(".*теть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тят", "^--")
+                                return WordStructure(self.text[:-4] + "тят", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*петь$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "оют", "^--")
+                                return WordStructure(self.text[:-3] + "оют", get_rhytmic_structure(self)[:-1] + "-^")
                             else:
-                                return WordStructure(self.text[:-2] + "ят", "^--")
+                                return WordStructure(self.text[:-2] + "ют", get_rhytmic_structure(self) + "-")
                         elif re.search(".*ать$", self.text, re.I):
                             if re.search(".*сать$", self.text, re.I) and self.stress_position == self.syllables_count:
-                                return WordStructure(self.text[:-4] + "шут", "^--")
+                                return WordStructure(self.text[:-4] + "шут", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*певать$", self.text, re.I):
-                                return WordStructure(self.text[:-2] + "ют", "^--")
+                                return WordStructure(self.text[:-2] + "ют", get_rhytmic_structure(self) + "-")
                             elif re.search(".*[ое]вать$", self.text, re.I):
-                                return WordStructure(self.text[:-5] + "уют", "^--")
+                                if self.syllables_count == self.stress_position:
+                                    return WordStructure(self.text[:-5] + "уют", get_rhytmic_structure(self)[:-2]
+                                                         + "^-")
+                                else:
+                                    return WordStructure(self.text[:-5] + "уют", get_rhytmic_structure(self))
                             elif re.search(".*авать$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "ют", "^--")
+                                return WordStructure(self.text[:-4] + "ют", get_rhytmic_structure(self))
                             elif re.search(".*скать$", self.text, re.I):
-                                return WordStructure(self.text[:-5] + "щут", "^--")
+                                return WordStructure(self.text[:-5] + "щут", get_rhytmic_structure(self)[:-2] + "^-")
                             else:
-                                return WordStructure(self.text[:-2] + "ют", "^--")
+                                return WordStructure(self.text[:-2] + "ют", get_rhytmic_structure(self) + "-")
                         elif re.search(".*ить", self.text, re.I):
                             if re.search(".*рить$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "еют", "^--")
+                                return WordStructure(self.text[:-3] + "еют", get_rhytmic_structure(self) + "-")
                             else:
-                                return WordStructure(self.text[:-3] + "ют", "^--")
+                                return WordStructure(self.text[:-3] + "ют", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*ять$", self.text, re.I):
                             if re.search(".*[ал]ять", self.text, re.I) and self.stress_position == self.syllables_count:
-                                return WordStructure(self.text[:-2] + "ют", "^--")
+                                return WordStructure(self.text[:-2] + "ют", get_rhytmic_structure(self) + "-")
                             else:
-                                return WordStructure(self.text[:-3] + "ют", "^--")
+                                return WordStructure(self.text[:-3] + "ют", get_rhytmic_structure(self))
                         elif re.search(".*оть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "ят", "^--")
+                            return WordStructure(self.text[:-3] + "ят", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*ыть$", self.text, re.I):
-                            return WordStructure(self.text[:-3] + "оют", "^--")
+                            return WordStructure(self.text[:-3] + "оют", get_rhytmic_structure(self) + "-")
                     elif self.conjugation == 2:
                         if re.search(".*ить$", self.text, re.I):
+                            if re.search(".*азить$", self.text, re.I):
+                                return WordStructure(self.text[:-4] + "зят", get_rhytmic_structure(self)[:-2] + "-^")
                             if re.search(".*зить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "зят", "^--")
+                                return WordStructure(self.text[:-4] + "зят", get_rhytmic_structure(self)[:-2] + "^-")
                             if re.search(".*дить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дят", "^--")
+                                return WordStructure(self.text[:-4] + "дят", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*тить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тят", "^--")
+                                return WordStructure(self.text[:-4] + "тят", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*сить$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "сят", "^--")
+                                return WordStructure(self.text[:-4] + "сят", get_rhytmic_structure(self)[:-2] + "^-")
                             else:
-                                return WordStructure(self.text[:-3] + "ят", "^--")
+                                return WordStructure(self.text[:-3] + "ят", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*еть$", self.text, re.I):
                             if re.search(".*теть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "тят", "^--")
+                                return WordStructure(self.text[:-4] + "тят", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*деть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "дят", "^--")
+                                return WordStructure(self.text[:-4] + "дят", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*петь$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "ят", "^--")
+                                return WordStructure(self.text[:-3] + "ят", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*сеть$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "сят", "^--")
+                                return WordStructure(self.text[:-4] + "сят", get_rhytmic_structure(self)[:-2] + "^-")
                             else:
-                                return WordStructure(self.text[:-3] + "ят", "^--")
+                                return WordStructure(self.text[:-3] + "ят", get_rhytmic_structure(self)[:-2] + "^-")
                         elif re.search(".*ать$", self.text, re.I):
                             if re.search(".*[жш]ать$", self.text, re.I):
-                                return WordStructure(self.text[:-3] + "ят", "^--")
+                                return WordStructure(self.text[:-3] + "ат", get_rhytmic_structure(self)[:-2] + "^-")
                             elif re.search(".*гнать$", self.text, re.I):
-                                return WordStructure(self.text[:-4] + "онят", "^--")
+                                return WordStructure(self.text[:-4] + "онят", get_rhytmic_structure(self) + "-")
                             else:
-                                return WordStructure(self.text[:-3] + "ят", "^--")
+                                return WordStructure(self.text[:-3] + "ят", get_rhytmic_structure(self))
                     else:
                         if re.search(".*есть$", self.text, re.I):
                             if self.text == "есть":
-                                return WordStructure("едят", "^")
+                                return WordStructure("едят", "-^")
                             else:
-                                return WordStructure(self.text[:-3] + "дают", "^--")
+                                return WordStructure(self.text[:-3] + "дают", get_rhytmic_structure(self))
                         elif re.search(".*дать$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "ят", "^--")
+                            return WordStructure(self.text[:-2] + "ют", get_rhytmic_structure(self))
                         elif re.search(".+быть$", self.text, re.I):
-                            return WordStructure(self.text[:-2] + "вают", "^--")
+                            return WordStructure(self.text[:-2] + "вают", get_rhytmic_structure(self))
                         elif self.text == "хотеть":
                             return WordStructure("хотят", "-^")
                         elif self.text == "бежать":
@@ -950,14 +1009,15 @@ names = [Name("Тамерлан", 3, "male"),
          Name("Владимир", 2, "male"),
          Name("Никита", 2, "male"),
          Name("Илья", 2, "male"),
-         Name("Николай", 3, "male"),
-         Name("Камисса", 2, "female"),
-         Name("Ольга", 1, "female"),
-         Name("Катерина", 3, "female"),
-         Name("Полина", 2, "female"),
-         Name("Анна", 1, "female"),
-         Name("Александра", 3, "female"),
-         Name("Мария", 2, "female")]
+         Name("Николай", 3, "male")]
+
+female_names = [Name("Камисса", 2, "female"),
+                Name("Ольга", 1, "female"),
+                Name("Катерина", 3, "female"),
+                Name("Полина", 2, "female"),
+                Name("Анна", 1, "female"),
+                Name("Александра", 3, "female"),
+                Name("Мария", 2, "female")]
 
 fathers = [Name("Руслан", 2, "male"),
            Name("Игорь", 1, "male"),
@@ -1024,16 +1084,16 @@ def describe(name):
     print(name.text + " " + quality.text + "\nРитмический рисунок: " + rhytmic_tone)
 
 
-text1mod = "Гр^озно взглян^ув на нег^о, возраз^ил [Hero:N-E,n]"
-text2mod = "М^олча ты ст^ой, [Hero:N,n], моем^у повин^уясь сов^ету"
-text3mod = "Т^ак [Hero:N,n] размышл^ял, и ем^у показ^алося л^учше"
-text4mod = "В^ызвать [Hero:N,a]. Наш^ёл он гер^оя, в друж^инах посл^едних"
-text5mod = "Пр^адзно сто^ящего: гн^ев он всегд^ашний пит^ал на [Hero:N,p]"
-text6mod = "Ст^ав перед н^им, [Hero:N,n] устремл^яет крыл^атые р^ечи:"
-text7mod = "[Hero:N-E,n] - тро^ян повел^итель, и ^если о бл^ижних"
-text8mod = "Т^ы сострад^аешь, теб^е заступ^иться за бл^ижнего д^олжно"
-text9mod = "Сл^едуй за мн^ой, защит^им [Hero:P,a]; теб^я он, почт^енный,"
-text10mod = "Б^удучи з^ятем, восп^итывал в с^обственном д^оме."
+texts = ["Гр^озно взглян^ув на нег^о, возраз^ил [Hero:N-E,n]",
+         "М^олча ты ст^ой, [Hero:N,n], моем^у повин^уясь сов^ету",
+         "Т^ак [Hero:N,n] размышл^ял, и ем^у показ^алося л^учше",
+         "В^ызвать [Hero:N,a]. Наш^ёл он гер^оя, в друж^инах посл^едних",
+         "Пр^адзно сто^ящего: гн^ев он всегд^ашний пит^ал на [Hero:N,p]",
+         "Ст^ав перед н^им, [Hero:N,n] устремл^яет крыл^атые р^ечи:",
+         "[Hero:N-E,n] - тро^ян повел^итель, и ^если о бл^ижних",
+         "Т^ы сострад^аешь, теб^е заступ^иться за бл^ижнего д^олжно",
+         "Сл^едуй за мн^ой, защит^им [Hero:P,a]; теб^я он, почт^енный,",
+         "Б^удучи з^ятем, восп^итывал в с^обственном д^оме."]
 
 
 def find_and_compare(text):
@@ -1087,10 +1147,10 @@ verbs = [Verb("воспевать", 3, False),
 for y in verbs:
     print(y.get_form("present", 1, "male").text
           + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text + " " + y.get_form("present", 3, "male").rhytmic_structure
+          + " " + y.get_form("present", 3, "male").text
           + " " + y.get_form("present", 1, "plural").text
           + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text)
+          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
 
 print("\nПервое спряжение:")
 verbs = [Verb("желать", 2, True),
@@ -1121,10 +1181,10 @@ verbs = [Verb("желать", 2, True),
 for y in verbs:
     print(y.get_form("present", 1, "male").text
           + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text + " " + y.get_form("present", 3, "male").rhytmic_structure
+          + " " + y.get_form("present", 3, "male").text
           + " " + y.get_form("present", 1, "plural").text
           + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text)
+          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
 
 print("\nВторое спряжение:")
 verbs = [Verb("возить", 2, False),
@@ -1134,7 +1194,7 @@ verbs = [Verb("возить", 2, False),
          Verb("видеть", 1, False),
          Verb("терпеть", 2, False),
          Verb("ненавидеть", 3, False),
-         Verb("обидеть", 2, True),
+         Verb("обижать", 3, False),
          Verb("зависеть", 2, False),
          Verb("вертеть", 2, False),
          Verb("гнать", 1, False),
@@ -1144,10 +1204,10 @@ verbs = [Verb("возить", 2, False),
 for y in verbs:
     print(y.get_form("present", 1, "male").text
           + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text + " " + y.get_form("present", 3, "male").rhytmic_structure
+          + " " + y.get_form("present", 3, "male").text
           + " " + y.get_form("present", 1, "plural").text
           + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text)
+          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
 
 print("\nИзолированные глаголы:")
 verbs = [Verb("хотеть", 2, False),
@@ -1160,8 +1220,7 @@ verbs = [Verb("хотеть", 2, False),
 for y in verbs:
     print(y.get_form("present", 1, "male").text
           + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text + " " + y.get_form("present", 3, "male").rhytmic_structure
+          + " " + y.get_form("present", 3, "male").text
           + " " + y.get_form("present", 1, "plural").text
           + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text
-          )
+          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
