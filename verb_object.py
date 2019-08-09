@@ -1,6 +1,7 @@
 import re
 from word_object import Word, WordStructure, get_rhytmic_structure
 
+
 class Verb(Word):
     perfective = False
 
@@ -28,43 +29,6 @@ class Verb(Word):
         if re.search("ить$", self.text, re.I):
             return 2
         return 1
-
-    def get_type(self):
-        if re.search(".*[аяе]ть$", self.text, re.I):
-            if re.search(".*[ое]вать$", self.text, re.I):
-                return 2
-            elif re.search(".*авать$", self.text, re.I):
-                return 13
-            elif re.search(".*ереть$", self.text, re.I):
-                return 9
-            if re.search(".*[аяе]ть$", self.text, re.I):
-                return 1
-            elif re.search(".*[аяе]ть$", self.text, re.I):
-                return 5
-            elif re.search(".*[ая]ть$", self.text, re.I):
-                return 6
-            elif re.search(".*[ая]ть", self.text, re.I):
-                return 14
-        elif re.search(".*[ыуи]ть$", self.text, re.I):
-            if re.search(".*нуть$", self.text, re.I):
-                return 3
-            elif re.search(".*ить$", self.text, re.I):
-                return 4
-            elif re.search(".*ить$", self.text, re.I):
-                return 11
-            elif re.search(".*[ыуи]ть$", self.text, re.I):
-                return 12
-        elif re.search(".*[зс]т[ьи]$", self.text, re.I):
-            return 7
-        elif re.search(".*чь$", self.text, re.I):
-            return 8
-        elif re.search(".*о[лр]оть$", self.text, re.I):
-            return 10
-        elif re.search(".*ть", self.text, re.I):
-            if re.search(".*ть", self.text, re.I):
-                return 15
-            elif re.search(".*ть", self.text, re.I):
-                return 16
 
     def get_form(self, tense, person, gender_or_plural):
         if tense == "present":

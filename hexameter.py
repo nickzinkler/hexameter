@@ -139,30 +139,6 @@ def hexameter_checker(text):
     return hex_structure == text_structure
 
 
-def describe(name):
-    quality = ""
-    if name.quality == "courageous":
-        quality = random.choice(courageous_epithets)
-    elif name.quality == "warmonger":
-        quality = random.choice(warmonger_epithets)
-    elif name.quality == "beautiful":
-        quality = random.choice(beautiful_epithets)
-    elif name.quality == "godly":
-        quality = random.choice(godly_epithets)
-    rhytmic_tone = ""
-    for x in range(name.syllables_count):
-        if x + 1 == name.stress_position:
-            rhytmic_tone += "^"
-        else:
-            rhytmic_tone += "-"
-    for x in range(quality.syllables_count):
-        if x + 1 == quality.stress_position:
-            rhytmic_tone += "^"
-        else:
-            rhytmic_tone += "-"
-    print(name.text + " " + quality.text + "\nРитмический рисунок: " + rhytmic_tone)
-
-
 texts = ["Гр^озно взглян^ув на нег^о, возраз^ил [Hero:N-E,n]",
          "М^олча ты ст^ой, [Hero:N,n], моем^у повин^уясь сов^ету",
          "Т^ак [Hero:N,n] размышл^ял, и ем^у показ^алося л^учше",

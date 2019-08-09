@@ -1,5 +1,6 @@
 import re
-from word_object import Word, WordStructure
+from word_object import Word, WordStructure, get_rhytmic_structure
+
 
 class Epithet(Word):
     soft_stem = False
