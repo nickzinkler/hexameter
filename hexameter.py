@@ -181,6 +181,18 @@ def parse_text(text):
         print(text.replace("^", ""))
 
 
+def debug_verbs(verbs_array):
+    for y in verbs_array:
+        print("я " + y.get_form("past", 1, "male", False).text
+              + "\nты " + y.get_form("past", 2, "male", False).text
+              + "\nон " + y.get_form("past", 3, "male", False).text
+              + " она " + y.get_form("past", 3, "female", False).text
+              + " оно " + y.get_form("past", 3, "neutral", False).text
+              + "\nмы " + y.get_form("past", 1, "male", True).text
+              + "\nвы " + y.get_form("past", 2, "male", True).text
+              + "\nони " + y.get_form("past", 3, "male", True).text)
+
+
 verbs = [Verb("воспевать", 3, False),
          Verb("делать", 1, False),
          Verb("низвергать", 3, False),
@@ -199,13 +211,7 @@ verbs = [Verb("воспевать", 3, False),
          Verb("разить", 2, False),
          Verb("оказывать", 2, False)]
 
-for y in verbs:
-    print(y.get_form("present", 1, "male").text
-          + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text
-          + " " + y.get_form("present", 1, "plural").text
-          + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
+debug_verbs(verbs)
 
 print("\nПервое спряжение:")
 verbs = [Verb("желать", 2, True),
@@ -233,13 +239,8 @@ verbs = [Verb("желать", 2, True),
          Verb("срывать", 2, True),
          Verb("колоть", 2, True),
          Verb("стелить", 2, True)]
-for y in verbs:
-    print(y.get_form("present", 1, "male").text
-          + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text
-          + " " + y.get_form("present", 1, "plural").text
-          + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
+
+debug_verbs(verbs)
 
 print("\nВторое спряжение:")
 verbs = [Verb("возить", 2, False),
@@ -256,13 +257,8 @@ verbs = [Verb("возить", 2, False),
          Verb("держать", 2, False),
          Verb("слышать", 1, False),
          Verb("дышать", 2, False)]
-for y in verbs:
-    print(y.get_form("present", 1, "male").text
-          + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text
-          + " " + y.get_form("present", 1, "plural").text
-          + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
+
+debug_verbs(verbs)
 
 print("\nИзолированные глаголы:")
 verbs = [Verb("хотеть", 2, False),
@@ -272,10 +268,8 @@ verbs = [Verb("хотеть", 2, False),
          Verb("есть", 1, False),
          Verb("ехать", 1, False),
          Verb("идти", 2, False)]
-for y in verbs:
-    print(y.get_form("present", 1, "male").text
-          + " " + y.get_form("present", 2, "male").text
-          + " " + y.get_form("present", 3, "male").text
-          + " " + y.get_form("present", 1, "plural").text
-          + " " + y.get_form("present", 2, "plural").text
-          + " " + y.get_form("present", 3, "plural").text + " " + y.get_form("present", 3, "plural").rhytmic_structure)
+
+debug_verbs(verbs)
+
+debug_verbs([Verb("хуевертить", 2, False)])
+

@@ -30,9 +30,9 @@ class Verb(Word):
             return 2
         return 1
 
-    def get_form(self, tense, person, gender_or_plural):
+    def get_form(self, tense, person, gender, plural):
         if tense == "present":
-            if gender_or_plural != "plural":
+            if not plural:
                 if person == 1:
                     if self.conjugation == 1:
                         if re.search(".*еть$", self.text, re.I):
@@ -620,3 +620,33 @@ class Verb(Word):
                             return WordStructure("идут", "-^")
                         elif self.text == "быть":
                             return WordStructure("есть", "^")
+        elif tense == "past":
+            if not plural:
+                if self.text == "идти":
+                    if gender == "male":
+                        return WordStructure("шёл", "^")
+                    elif gender == "female":
+                        return WordStructure("шла", "^")
+                    else:
+                        return WordStructure("шло", "^")
+                elif re.search(".*сть$", self.text, re.I):
+                    if gender == "male":
+                        return WordStructure(self.text[:-3] + "л", get_rhytmic_structure(self))
+                    elif gender == "female":
+                        return WordStructure(self.text[:-3] + "ла", get_rhytmic_structure(self) + "-")
+                    else:
+                        return WordStructure(self.text[:-3] + "ло", get_rhytmic_structure(self) + "-")
+                else:
+                    if gender == "male":
+                        return WordStructure(self.text[:-2] + "л", get_rhytmic_structure(self))
+                    elif gender == "female":
+                        return WordStructure(self.text[:-2] + "ла", get_rhytmic_structure(self) + "-")
+                    else:
+                        return WordStructure(self.text[:-2] + "ло", get_rhytmic_structure(self) + "-")
+            else:
+                if self.text == "идти":
+                    return WordStructure("шли", "^")
+                elif re.search(".*сть$", self.text, re.I):
+                    return WordStructure(self.text[:-3] + "ли", get_rhytmic_structure(self) + "-")
+                else:
+                    return WordStructure(self.text[:-2] + "ли", get_rhytmic_structure(self) + "-")
