@@ -1,7 +1,7 @@
 import random
 import re
 from name_object import Name
-from verb_object import Verb, get_form
+from verb_object import Verb, get_form, get_imperative
 from hero_object import Hero
 
 hex_structure = "^--^--^--^--^--^-"
@@ -108,6 +108,12 @@ def debug_verbs(verbs_array, tense, persons, single_or_plural, gender):
                       + get_form(y, tense, x, z, single_or_plural).rhytmic_structure)
 
 
+def debug_imperative(verbs_array, single_or_plural):
+    for x in verbs_array:
+        for y in single_or_plural:
+            print(get_imperative(x, y).text + " " + get_imperative(x, y).rhytmic_structure)
+
+
 print("\nПервое спряжение:")
 verbs = [Verb("желать", 2, False),
          Verb("рисовать", 3, False),
@@ -136,10 +142,11 @@ verbs = [Verb("желать", 2, False),
          Verb("стелить", 2, False)]
 
 # debug_verbs(verbs, "future", [1], True, "male")
+debug_imperative(verbs, ["plural"])
 
 print("\nВторое спряжение:")
 verbs = [Verb("возить", 2, False),
-         Verb("пилить", 3, False),
+         Verb("пилить", 2, False),
          Verb("тратить", 1, False),
          Verb("смотреть", 2, False),
          Verb("видеть", 1, False),
@@ -154,17 +161,19 @@ verbs = [Verb("возить", 2, False),
          Verb("дышать", 2, False)]
 
 # debug_verbs(verbs, "future", [1], True, "male")
+debug_imperative(verbs, ["plural"])
 
 print("\nИзолированные глаголы:")
 verbs = [Verb("хотеть", 2, False),
          Verb("бежать", 2, False),
          Verb("чтить", 1, False),
-         Verb("надоедать", 3, False),
+         Verb("надоедать", 4, False),
          Verb("есть", 1, False),
          Verb("ехать", 1, False),
          Verb("идти", 2, False)]
 
 # debug_verbs(verbs, "future", [1], True, "male")
+debug_imperative(verbs, ["plural"])
 
 print("\nВозвратные глаголы:")
 verbs = [Verb("раскаляться", 3, False),
@@ -191,7 +200,9 @@ verbs = [Verb("раскаляться", 3, False),
          Verb("тратиться", 1, False)]
 
 # debug_verbs(verbs, "future", [1], True, "male")
+debug_imperative(verbs, ["plural"])
 
+print("\nСовершенные глаголы:")
 verbs = [Verb("воспеть", 2, True),
          Verb("сделать", 1, True),
          Verb("низвергнуть", 2, True),
@@ -210,4 +221,6 @@ verbs = [Verb("воспеть", 2, True),
          Verb("оказать", 3, True),
          Verb("увлечься", 2, True)]
 
-debug_verbs(verbs, "future", [3], True, ["male"])
+# debug_verbs(verbs, "future", [3], True, ["male"])
+
+debug_imperative(verbs, ["plural"])
