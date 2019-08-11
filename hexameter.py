@@ -1,7 +1,7 @@
 import random
 import re
 from name_object import Name
-from verb_object import Verb
+from verb_object import Verb, get_form
 from hero_object import Hero
 
 hex_structure = "^--^--^--^--^--^-"
@@ -100,62 +100,42 @@ def parse_text(text):
         print(text.replace("^", ""))
 
 
-def debug_verbs(verbs_array, tense, persons, single_or_plural):
+def debug_verbs(verbs_array, tense, persons, single_or_plural, gender):
     for y in verbs_array:
-        string1 = ""
         for x in persons:
-            print(y.get_form(tense, x, "male", single_or_plural).text + " "
-                  + y.get_form(tense, x, "male", single_or_plural).rhytmic_structure)
+            for z in gender:
+                print(get_form(y, tense, x, z, single_or_plural).text + " "
+                      + get_form(y, tense, x, z, single_or_plural).rhytmic_structure)
 
-
-verbs = [Verb("воспевать", 3, False),
-         Verb("делать", 1, False),
-         Verb("низвергать", 3, False),
-         Verb("распростирать", 4, False),
-         Verb("воздвигать", 3, False),
-         Verb("пылать", 2, False),
-         Verb("приходить", 3, False),
-         Verb("умолять", 3, False),
-         Verb("искупать", 3, False),
-         Verb("приносить", 3, False),
-         Verb("помогать", 3, False),
-         Verb("искать", 2, False),
-         Verb("разрушать", 3, False),
-         Verb("возвращать", 3, False),
-         Verb("принимать", 3, False),
-         Verb("разить", 2, False),
-         Verb("оказывать", 2, False)]
-
-# debug_verbs(verbs)
 
 print("\nПервое спряжение:")
-verbs = [Verb("желать", 2, True),
-         Verb("рисовать", 3, True),
-         Verb("доставать", 3, True),
-         Verb("писать", 2, True),
-         Verb("подсказывать", 2, True),
-         Verb("белеть", 2, True),
-         Verb("читать", 2, True),
-         Verb("брить", 1, True),
-         Verb("паять", 2, True),
-         Verb("краснеть", 2, True),
-         Verb("открывать", 3, True),
-         Verb("таять", 1, True),
-         Verb("сеять", 1, True),
-         Verb("танцевать", 3, True),
-         Verb("петь", 1, True),
-         Verb("сидеть", 2, True),
-         Verb("копать", 2, True),
-         Verb("летать", 2, True),
-         Verb("мешать", 2, True),
-         Verb("рыть", 1, True),
-         Verb("печатать", 2, True),
-         Verb("копировать", 2, True),
-         Verb("срывать", 2, True),
-         Verb("колоть", 2, True),
-         Verb("стелить", 2, True)]
+verbs = [Verb("желать", 2, False),
+         Verb("рисовать", 3, False),
+         Verb("доставать", 3, False),
+         Verb("писать", 2, False),
+         Verb("подсказывать", 2, False),
+         Verb("белеть", 2, False),
+         Verb("читать", 2, False),
+         Verb("брить", 1, False),
+         Verb("паять", 2, False),
+         Verb("краснеть", 2, False),
+         Verb("открывать", 3, False),
+         Verb("таять", 1, False),
+         Verb("сеять", 1, False),
+         Verb("танцевать", 3, False),
+         Verb("петь", 1, False),
+         Verb("сидеть", 2, False),
+         Verb("копать", 2, False),
+         Verb("летать", 2, False),
+         Verb("мешать", 2, False),
+         Verb("рыть", 1, False),
+         Verb("печатать", 2, False),
+         Verb("копировать", 2, False),
+         Verb("срывать", 2, False),
+         Verb("колоть", 2, False),
+         Verb("стелить", 2, False)]
 
-# debug_verbs(verbs)
+# debug_verbs(verbs, "future", [1], True, "male")
 
 print("\nВторое спряжение:")
 verbs = [Verb("возить", 2, False),
@@ -173,7 +153,7 @@ verbs = [Verb("возить", 2, False),
          Verb("слышать", 1, False),
          Verb("дышать", 2, False)]
 
-# debug_verbs(verbs)
+# debug_verbs(verbs, "future", [1], True, "male")
 
 print("\nИзолированные глаголы:")
 verbs = [Verb("хотеть", 2, False),
@@ -184,7 +164,7 @@ verbs = [Verb("хотеть", 2, False),
          Verb("ехать", 1, False),
          Verb("идти", 2, False)]
 
-# debug_verbs(verbs)
+# debug_verbs(verbs, "future", [1], True, "male")
 
 print("\nВозвратные глаголы:")
 verbs = [Verb("раскаляться", 3, False),
@@ -200,14 +180,34 @@ verbs = [Verb("раскаляться", 3, False),
          Verb("искупаться", 3, False),
          Verb("разрушаться", 3, False),
          Verb("приниматься", 3, False),
-         Verb("рисоваться", 3, True),
-         Verb("писаться", 2, True),
-         Verb("читаться", 2, True),
-         Verb("бриться", 1, True),
-         Verb("мешаться", 2, True),
+         Verb("рисоваться", 3, False),
+         Verb("писаться", 2, False),
+         Verb("читаться", 2, False),
+         Verb("бриться", 1, False),
+         Verb("мешаться", 2, False),
          Verb("пилиться", 2, False),
          Verb("терпеться", 2, False),
          Verb("вертеться", 2, False),
          Verb("тратиться", 1, False)]
 
-debug_verbs(verbs, "present", [1], False)
+# debug_verbs(verbs, "future", [1], True, "male")
+
+verbs = [Verb("воспеть", 2, True),
+         Verb("сделать", 1, True),
+         Verb("низвергнуть", 2, True),
+         Verb("распростереть", 4, True),
+         Verb("воздвигнуть", 2, True),
+         Verb("воспылать", 3, True),
+         Verb("придти", 2, True),
+         Verb("искупить", 3, True),
+         Verb("принести", 3, True),
+         Verb("помочь", 2, True),
+         Verb("найти", 2, True),
+         Verb("разрушить", 2, True),
+         Verb("вернуть", 2, True),
+         Verb("принять", 2, True),
+         Verb("поразить", 3, True),
+         Verb("оказать", 3, True),
+         Verb("увлечься", 2, True)]
+
+debug_verbs(verbs, "future", [3], True, ["male"])
