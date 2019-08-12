@@ -69,6 +69,8 @@ texts = ["Гр^озно взглян^ув на нег^о, возраз^ил [Her
          "Сл^едуй за мн^ой, защит^им [Hero:P,a]; теб^я он, почт^енный,",
          "Б^удучи з^ятем, восп^итывал в с^обственном д^оме."]
 
+first_text = "Гнев, богиня, [Verb:воспеть,3,0;Imp], [Hero1:N,g], Пелеева сына"
+
 
 def find_and_compare(text):
     p = re.findall(r"(\^[аеёиоуэюыя]|[аеёиоуэюыя]|\[.*\])", text, re.I)
@@ -84,12 +86,13 @@ def find_and_compare(text):
 
 
 def parse_text(text):
-    p = re.findall(r"\[.*\]", text, re.I)
+    p = re.findall(r"\[.*?\]", text, re.I)
     results = None
     if len(p) > 0:
         for x in p:
             while not results:
                 new_hero = generate_hero()
+                print(x)
                 text_type, style = x[1:-1].split(':')
                 base, case = style.split(',')
                 structure = find_and_compare(text)
@@ -141,9 +144,6 @@ verbs = [Verb("желать", 2, False),
          Verb("колоть", 2, False),
          Verb("стелить", 2, False)]
 
-# debug_verbs(verbs, "future", [1], True, "male")
-debug_imperative(verbs, ["plural"])
-
 print("\nВторое спряжение:")
 verbs = [Verb("возить", 2, False),
          Verb("пилить", 2, False),
@@ -160,9 +160,6 @@ verbs = [Verb("возить", 2, False),
          Verb("слышать", 1, False),
          Verb("дышать", 2, False)]
 
-# debug_verbs(verbs, "future", [1], True, "male")
-debug_imperative(verbs, ["plural"])
-
 print("\nИзолированные глаголы:")
 verbs = [Verb("хотеть", 2, False),
          Verb("бежать", 2, False),
@@ -171,9 +168,6 @@ verbs = [Verb("хотеть", 2, False),
          Verb("есть", 1, False),
          Verb("ехать", 1, False),
          Verb("идти", 2, False)]
-
-# debug_verbs(verbs, "future", [1], True, "male")
-debug_imperative(verbs, ["plural"])
 
 print("\nВозвратные глаголы:")
 verbs = [Verb("раскаляться", 3, False),
@@ -199,9 +193,6 @@ verbs = [Verb("раскаляться", 3, False),
          Verb("вертеться", 2, False),
          Verb("тратиться", 1, False)]
 
-# debug_verbs(verbs, "future", [1], True, "male")
-debug_imperative(verbs, ["plural"])
-
 print("\nСовершенные глаголы:")
 verbs = [Verb("воспеть", 2, True),
          Verb("сделать", 1, True),
@@ -221,6 +212,4 @@ verbs = [Verb("воспеть", 2, True),
          Verb("оказать", 3, True),
          Verb("увлечься", 2, True)]
 
-# debug_verbs(verbs, "future", [3], True, ["male"])
-
-debug_imperative(verbs, ["plural"])
+parse_text(first_text)
