@@ -2048,6 +2048,8 @@ def get_imperative(verb, single_or_plural):
                 return WordStructure("иди", "-^")
             elif verb.text == "быть":
                 return WordStructure("будь", "^")
+            else:
+                return WordStructure("ошибка" "------")
     elif single_or_plural == "plural":
         if verb.conjugation == 1:
             if verb.perfective:
@@ -2158,3 +2160,5 @@ def get_imperative(verb, single_or_plural):
                 return WordStructure("идите", "-^-")
             elif verb.text == "быть":
                 return WordStructure("будьте", "^-")
+            else:
+                return WordStructure("ошибка" "------")

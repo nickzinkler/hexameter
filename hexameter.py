@@ -6,7 +6,6 @@ from hero_object import Hero
 
 hex_structure = "^--^--^--^--^--^-"
 
-
 male_names = [Name("Тамерлан", 3, "male"),
               Name("Владислав", 3, "male"),
               Name("Юрий", 1, "male"),
@@ -69,8 +68,6 @@ texts = ["Гр^озно взглян^ув на нег^о, возраз^ил [Her
          "Сл^едуй за мн^ой, защит^им [Hero:P,a]; теб^я он, почт^енный,",
          "Б^удучи з^ятем, восп^итывал в с^обственном д^оме."]
 
-first_text = "Гнев, богиня, [Verb:воспеть,3,0;Imp], [Hero1:N,g], Пелеева сына"
-
 
 def find_and_compare(text):
     p = re.findall(r"(\^[аеёиоуэюыя]|[аеёиоуэюыя]|\[.*\])", text, re.I)
@@ -87,18 +84,25 @@ def find_and_compare(text):
 
 def parse_text(text):
     p = re.findall(r"\[.*?\]", text, re.I)
-    results = None
+    results = text
     if len(p) > 0:
         for x in p:
-            while not results:
-                new_hero = generate_hero()
-                print(x)
+            if re.match(re.escape("[Hero"), x, re.I):
+                new_hero = Hero(Name("Ахиллес", 3, "male"), Name("Пелей", 2, "male"))
                 text_type, style = x[1:-1].split(':')
                 base, case = style.split(',')
-                structure = find_and_compare(text)
-                results = new_hero.get_possible_combinations(base, case, structure)
-            result = random.choice(results)
-            print(text.replace(p[0], result).replace("^", ""))
+                if base == "F":
+                    results = (results.replace(x, "Пелеева").replace("^", ""))
+                else:
+                    results = (results.replace(x, new_hero.name.get_case(case).text).replace("^", ""))
+            elif re.match(re.escape("[Verb"), x, re.I):
+                text_type, verb_text = x[1:-1].split(':')
+                given_verb, form = verb_text.split(';')
+                base, stress_pos, single = given_verb.split(',')
+                stress_pos = int(stress_pos);
+                new_verb = Verb(base, stress_pos, single)
+                results = (results.replace(x, get_imperative(new_verb, single).text).replace("^", ""))
+        print(results)
     else:
         print(text.replace("^", ""))
 
@@ -117,7 +121,7 @@ def debug_imperative(verbs_array, single_or_plural):
             print(get_imperative(x, y).text + " " + get_imperative(x, y).rhytmic_structure)
 
 
-print("\nПервое спряжение:")
+# print("\nПервое спряжение:")
 verbs = [Verb("желать", 2, False),
          Verb("рисовать", 3, False),
          Verb("доставать", 3, False),
@@ -144,7 +148,7 @@ verbs = [Verb("желать", 2, False),
          Verb("колоть", 2, False),
          Verb("стелить", 2, False)]
 
-print("\nВторое спряжение:")
+# print("\nВторое спряжение:")
 verbs = [Verb("возить", 2, False),
          Verb("пилить", 2, False),
          Verb("тратить", 1, False),
@@ -160,7 +164,7 @@ verbs = [Verb("возить", 2, False),
          Verb("слышать", 1, False),
          Verb("дышать", 2, False)]
 
-print("\nИзолированные глаголы:")
+# print("\nИзолированные глаголы:")
 verbs = [Verb("хотеть", 2, False),
          Verb("бежать", 2, False),
          Verb("чтить", 1, False),
@@ -169,7 +173,7 @@ verbs = [Verb("хотеть", 2, False),
          Verb("ехать", 1, False),
          Verb("идти", 2, False)]
 
-print("\nВозвратные глаголы:")
+# print("\nВозвратные глаголы:")
 verbs = [Verb("раскаляться", 3, False),
          Verb("смеяться", 2, False),
          Verb("сомневаться", 3, False),
@@ -193,7 +197,7 @@ verbs = [Verb("раскаляться", 3, False),
          Verb("вертеться", 2, False),
          Verb("тратиться", 1, False)]
 
-print("\nСовершенные глаголы:")
+# print("\nСовершенные глаголы:")
 verbs = [Verb("воспеть", 2, True),
          Verb("сделать", 1, True),
          Verb("низвергнуть", 2, True),
@@ -212,4 +216,6 @@ verbs = [Verb("воспеть", 2, True),
          Verb("оказать", 3, True),
          Verb("увлечься", 2, True)]
 
+
+first_text = "Гнев, богиня, [Verb:воспеть,3,single;Imp], [Hero1:N,g], [Hero1:F,pos,g] сына"
 parse_text(first_text)
