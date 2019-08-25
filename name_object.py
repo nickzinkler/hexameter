@@ -26,6 +26,81 @@ class Name(Word):
         elif case == "p":
             return self.prepositional_case()
 
+    def get_possessive_base(self, grammatical_gender, case):
+        if re.search(".*[еиа]й$|ь$", self.text, re.I):
+            if grammatical_gender == "male":
+                word = WordStructure(self.text[:-1] + "ев", get_rhytmic_structure(self) + "-")
+            elif grammatical_gender == "female":
+                word = WordStructure(self.text[:-1] + "ева", get_rhytmic_structure(self) + "--")
+            else:
+                word = WordStructure(self.text[:-1] + "ево", get_rhytmic_structure(self) + "--")
+        elif re.search(".*(а|ья)$", self.text, re.I):
+            if grammatical_gender == "male":
+                word = WordStructure(self.text[:-1] + "ин", get_rhytmic_structure(self) + "-")
+            elif grammatical_gender == "female":
+                word = WordStructure(self.text[:-1] + "ина", get_rhytmic_structure(self) + "--")
+            else:
+                word = WordStructure(self.text[:-1] + "ино", get_rhytmic_structure(self) + "--")
+        elif re.search(".*ав$", self.text, re.I):
+            if grammatical_gender == "male":
+                word = WordStructure(self.text + "лев", get_rhytmic_structure(self) + "-")
+            elif grammatical_gender == "female":
+                word = WordStructure(self.text + "лева", get_rhytmic_structure(self) + "--")
+            else:
+                word = WordStructure(self.text + "лево", get_rhytmic_structure(self) + "--")
+        elif re.search(".*ия$", self.text, re.I):
+            if grammatical_gender == "male":
+                word = WordStructure(self.text[:-1] + "ин", get_rhytmic_structure(self) + "-")
+            elif grammatical_gender == "female":
+                word = WordStructure(self.text[:-1] + "ина", get_rhytmic_structure(self) + "--")
+            else:
+                word = WordStructure(self.text[:-1] + "ино", get_rhytmic_structure(self) + "--")
+        else:
+            if grammatical_gender == "male":
+                word = WordStructure(self.text + "ов", get_rhytmic_structure(self) + "-")
+            elif grammatical_gender == "female":
+                word = WordStructure(self.text + "ова", get_rhytmic_structure(self) + "--")
+            else:
+                word = WordStructure(self.text + "ово", get_rhytmic_structure(self) + "--")
+
+        if case == "n":
+            return word
+        elif case == "g":
+            if grammatical_gender == "male":
+                return WordStructure(word.text + "а", word.rhytmic_structure + "-")
+            elif grammatical_gender == "female":
+                return WordStructure(word.text[:-1] + "ой", word.rhytmic_structure)
+            else:
+                return WordStructure(word.text + "го", word.rhytmic_structure + "-")
+        elif case == "d":
+            if grammatical_gender == "male":
+                return WordStructure(word.text + "у", word.rhytmic_structure + "-")
+            elif grammatical_gender == "female":
+                return WordStructure(word.text[:-1] + "ой", word.rhytmic_structure)
+            else:
+                return WordStructure(word.text + "му", word.rhytmic_structure + "-")
+        elif case == "a":
+            if grammatical_gender == "male":
+                return WordStructure(word.text + "а", word.rhytmic_structure + "-")
+            elif grammatical_gender == "female":
+                return WordStructure(word.text[:-1] + "у", word.rhytmic_structure)
+            else:
+                return word
+        elif case == "i":
+            if grammatical_gender == "male":
+                return WordStructure(word.text + "ым", word.rhytmic_structure + "-")
+            elif grammatical_gender == "female":
+                return WordStructure(word.text[:-1] + "ой", word.rhytmic_structure)
+            else:
+                return WordStructure(word.text[:-1] + "ым", word.rhytmic_structure)
+        elif case == "p":
+            if grammatical_gender == "male":
+                return WordStructure(word.text + "ом", word.rhytmic_structure + "-")
+            elif grammatical_gender == "female":
+                return WordStructure(word.text[:-1] + "ой", word.rhytmic_structure)
+            else:
+                return WordStructure(word.text + "м", word.rhytmic_structure)
+
     def nominative_case(self):
         return WordStructure(self.text, get_rhytmic_structure(self))
 

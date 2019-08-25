@@ -30,6 +30,13 @@ fathers = [Name("Руслан", 2, "male"),
            Name("Егор", 2, "male"),
            Name("Евгений", 2, "male")]
 
+greek_male_names = [Name("Ахиллес", 3, "male"),
+                    Name("Пелей", 2, "male"),
+                    Name("Аид", 2, "male"),
+                    Name("Зевс", 1, "male"),
+                    Name("Атрей", 2, "male"),
+                    Name("Феб", 2, "male"),
+                    Name("Хрис", 2, "male")]
 
 def generate_hero():
     return Hero(random.choice(male_names), random.choice(fathers))
@@ -90,9 +97,13 @@ def parse_text(text):
             if re.match(re.escape("[Hero"), x, re.I):
                 new_hero = Hero(Name("Ахиллес", 3, "male"), Name("Пелей", 2, "male"))
                 text_type, style = x[1:-1].split(':')
-                base, case = style.split(',')
+                if not re.match("F", style, re.I):
+                    base, case = style.split(',')
+                else:
+                    base, form, case = style.split(',')
                 if base == "F":
-                    results = (results.replace(x, "Пелеева").replace("^", ""))
+                    results = (results.replace(x,
+                                               new_hero.father.get_possessive_base("male", case).text).replace("^", ""))
                 else:
                     results = (results.replace(x, new_hero.name.get_case(case).text).replace("^", ""))
             elif re.match(re.escape("[Verb"), x, re.I):
